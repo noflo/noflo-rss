@@ -32,10 +32,5 @@
   "keywords": [
     "noflo",
     "ecosystem:noflo"
-  ],
-  "noflo": {
-    "components": {
-      "ParseFeed": "components/ParseFeed.coffee"
-    }
-  }
+  ]
 }
