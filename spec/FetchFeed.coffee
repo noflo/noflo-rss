@@ -55,3 +55,19 @@ describe 'Feed fetching', ->
       ins.beginGroup 1
       ins.send 'http://bergie.iki.fi/blog/rss.xml'
       ins.endGroup()
+
+  describe 'fetching a known missing feed', ->
+    it 'should produce an error', (done) ->
+      groups = []
+      error.on 'begingroup', (group) ->
+        groups.push group
+      error.on 'data', (data) ->
+        chai.expect(groups[0]).to.equal 2
+        done()
+      error.on 'endgroup', (group) ->
+        groups.pop()
+
+      ins.beginGroup 2
+      ins.send 'http://bergie.iki.fi/notfound.xml'
+      ins.endGroup()
+
