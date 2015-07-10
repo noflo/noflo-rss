@@ -71,3 +71,18 @@ describe 'Feed fetching', ->
       ins.send 'http://bergie.iki.fi/notfound.xml'
       ins.endGroup()
 
+  describe 'fetching a non-feed URL', ->
+    it 'should produce an error', (done) ->
+      groups = []
+      error.on 'begingroup', (group) ->
+        groups.push group
+      error.on 'data', (data) ->
+        chai.expect(groups[0]).to.equal 3
+        done()
+      error.on 'endgroup', (group) ->
+        groups.pop()
+
+      ins.beginGroup 3
+      ins.send 'http://bergie.iki.fi/blog/'
+      ins.endGroup()
+
