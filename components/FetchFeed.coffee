@@ -31,10 +31,8 @@ exports.getComponent = ->
       if res.statusCode isnt 200
         @emit 'error', "Feed '#{data}' resulted in #{res.statusCode}"
         return
-      out.beginGroup data
       @pipe parser
       @once 'end', ->
-        out.endGroup()
         callback()
 
     parser.on 'error', callback
