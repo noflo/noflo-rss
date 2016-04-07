@@ -2,6 +2,8 @@ noflo = require 'noflo'
 feedparser = require 'feedparser'
 request = require 'request'
 
+# @runtime noflo-nodejs
+
 exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Fetch and parse an RSS feed'
