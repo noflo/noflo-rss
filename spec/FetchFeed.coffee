@@ -39,7 +39,6 @@ describe 'Feed fetching', ->
       out.on 'data', (data) ->
         chai.expect(groups).to.eql [
           1
-          'http://bergie.iki.fi/blog/rss.xml'
         ]
         chai.expect(data.meta).to.be.an 'object'
         chai.expect(data.meta['rss:link']['#']).to.equal 'http://bergie.iki.fi'
