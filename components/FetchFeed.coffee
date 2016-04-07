@@ -2,6 +2,8 @@ noflo = require 'noflo'
 feedparser = require 'feedparser'
 request = require 'request'
 
+# @runtime noflo-nodejs
+
 exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Fetch and parse an RSS feed'
@@ -27,12 +29,10 @@ exports.getComponent = ->
     req.on 'error', callback
     req.on 'response', (res) ->
       if res.statusCode isnt 200
-        @emit 'error', "Feed '#{data}' resulted in #{res.statusCode}"
+        @emit 'error', new Error "Feed '#{data}' resulted in #{res.statusCode}"
         return
-      out.beginGroup data
       @pipe parser
       @once 'end', ->
-        out.endGroup()
         callback()
 
     parser.on 'error', callback

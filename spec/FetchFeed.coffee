@@ -39,7 +39,6 @@ describe 'Feed fetching', ->
       out.on 'data', (data) ->
         chai.expect(groups).to.eql [
           1
-          'http://bergie.iki.fi/blog/rss.xml'
         ]
         chai.expect(data.meta).to.be.an 'object'
         chai.expect(data.meta['rss:link']['#']).to.equal 'http://bergie.iki.fi'
@@ -62,6 +61,7 @@ describe 'Feed fetching', ->
       error.on 'begingroup', (group) ->
         groups.push group
       error.on 'data', (data) ->
+        chai.expect(data).to.be.an 'error'
         chai.expect(groups[0]).to.equal 2
         done()
       error.on 'endgroup', (group) ->
@@ -77,6 +77,7 @@ describe 'Feed fetching', ->
       error.on 'begingroup', (group) ->
         groups.push group
       error.on 'data', (data) ->
+        chai.expect(data).to.be.an 'error'
         chai.expect(groups[0]).to.equal 3
         done()
       error.on 'endgroup', (group) ->
