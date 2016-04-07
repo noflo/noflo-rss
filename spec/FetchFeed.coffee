@@ -61,6 +61,7 @@ describe 'Feed fetching', ->
       error.on 'begingroup', (group) ->
         groups.push group
       error.on 'data', (data) ->
+        chai.expect(data).to.be.an 'error'
         chai.expect(groups[0]).to.equal 2
         done()
       error.on 'endgroup', (group) ->
@@ -76,6 +77,7 @@ describe 'Feed fetching', ->
       error.on 'begingroup', (group) ->
         groups.push group
       error.on 'data', (data) ->
+        chai.expect(data).to.be.an 'error'
         chai.expect(groups[0]).to.equal 3
         done()
       error.on 'endgroup', (group) ->

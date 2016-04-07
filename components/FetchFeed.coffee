@@ -29,7 +29,7 @@ exports.getComponent = ->
     req.on 'error', callback
     req.on 'response', (res) ->
       if res.statusCode isnt 200
-        @emit 'error', "Feed '#{data}' resulted in #{res.statusCode}"
+        @emit 'error', new Error "Feed '#{data}' resulted in #{res.statusCode}"
         return
       @pipe parser
       @once 'end', ->
