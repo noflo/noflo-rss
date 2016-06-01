@@ -23,21 +23,23 @@ exports.getComponent = ->
     out: 'out'
     async: true
     forwardGroups: true
-  , (data, groups, out, callback) ->
+  , (data, groups, out, cb) ->
+    callback = (err) ->
+      cb err
     req = request data
     parser = new feedparser
-    req.on 'error', callback
+    req.once 'error', (err) ->
+      callback err
     req.on 'response', (res) ->
       if res.statusCode isnt 200
         @emit 'error', new Error "Feed '#{data}' resulted in #{res.statusCode}"
         return
       @pipe parser
-      @once 'end', ->
-        callback()
 
-    parser.on 'error', callback
+    parser.once 'error', (err) ->
+      callback err
     parser.on 'readable', ->
       while item = @read()
         out.send item
-
-  c
+    parser.on 'end', ->
+      do callback
