@@ -17,7 +17,7 @@
   "dependencies": {
     "feedparser": "~1.1.4",
     "noflo": "~0.7.4",
-    "request": "~2.70.0"
+    "request": "~2.72.0"
   },
   "devDependencies": {
     "chai": "~3.5.0",
