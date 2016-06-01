@@ -30,21 +30,31 @@ describe 'Feed fetching', ->
 
   describe 'fetching a known good feed', ->
     it 'should produce 10 items', (done) ->
-      expected = 10
-      groups = []
+      expected = [
+        '< 1'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        '>'
+      ]
+      received = []
       out.on 'begingroup', (group) ->
-        groups.push group
+        received.push "< #{group}"
       out.on 'data', (data) ->
         chai.expect(data.meta).to.be.an 'object'
         chai.expect(data.meta['rss:link']['#']).to.equal 'http://bergie.iki.fi'
-        chai.expect(groups).to.eql [
-          1
-        ]
-        expected--
+        received.push 'ITEM'
       out.on 'endgroup', (group) ->
-        groups.pop()
-        return if groups.length
-        chai.expect(expected).to.equal 0
+        received.push '>'
+      out.on 'disconnect', ->
+        chai.expect(received).to.eql expected
         done()
       error.on 'data', (data) ->
         done data
@@ -56,17 +66,22 @@ describe 'Feed fetching', ->
 
   describe 'fetching a known missing feed', ->
     it 'should produce an error', (done) ->
-      groups = []
+      received = []
+      expected = [
+        '< 2'
+        'ERR'
+        '>'
+      ]
       error.on 'begingroup', (group) ->
-        groups.push group
+        received.push "< #{group}"
       error.on 'data', (data) ->
         chai.expect(data).to.be.an 'error'
-        chai.expect(groups).to.eql [
-          2
-        ]
-        done()
+        received.push 'ERR'
       error.on 'endgroup', (group) ->
-        groups.pop()
+        received.push '>'
+      error.on 'disconnect', ->
+        chai.expect(received).to.eql expected
+        done()
 
       ins.beginGroup 2
       ins.send 'http://bergie.iki.fi/notfound.xml'
@@ -75,17 +90,22 @@ describe 'Feed fetching', ->
 
   describe 'fetching a non-feed URL', ->
     it 'should produce an error', (done) ->
-      groups = []
+      received = []
+      expected = [
+        '< 3'
+        'ERR'
+        '>'
+      ]
       error.on 'begingroup', (group) ->
-        groups.push group
+        received.push "< #{group}"
       error.on 'data', (data) ->
         chai.expect(data).to.be.an 'error'
-        chai.expect(groups).to.eql [
-          3
-        ]
-        done()
+        received.push 'ERR'
       error.on 'endgroup', (group) ->
-        groups.pop()
+        received.push '>'
+      error.on 'disconnect', ->
+        chai.expect(received).to.eql expected
+        done()
 
       ins.beginGroup 3
       ins.send 'http://bergie.iki.fi/blog/'
