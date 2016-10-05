@@ -28,6 +28,7 @@ exports.getComponent = ->
       cb err
     req = request data
     parser = new feedparser
+    c.outPorts.out.connect() # let downstream know we will send
     req.once 'error', (err) ->
       callback err
     req.on 'response', (res) ->
