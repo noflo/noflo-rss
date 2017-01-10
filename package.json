@@ -15,7 +15,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "feedparser": "~1.1.4",
+    "feedparser": "~1.1.5",
     "noflo": "0.x >= 0.7",
     "request": "~2.72.0"
   },
