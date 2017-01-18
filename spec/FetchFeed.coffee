@@ -69,9 +69,7 @@ describe 'Feed fetching', ->
       received = []
       expected = [
         '< 2'
-        '< 2'
         'ERR'
-        '>'
         '>'
       ]
       error.on 'begingroup', (group) ->
@@ -95,9 +93,7 @@ describe 'Feed fetching', ->
       received = []
       expected = [
         '< 3'
-        '< 3'
         'ERR'
-        '>'
         '>'
       ]
       error.on 'begingroup', (group) ->
