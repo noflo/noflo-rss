@@ -19,11 +19,11 @@ exports.getComponent = ->
     datatype: 'object'
 
   c.process (input, output) ->
+    return unless input.hasData 'in'
     data = input.getData 'in'
-    return unless data
     req = request data
     parser = new feedparser
-    req.on 'error', (err) ->
+    req.once 'error', (err) ->
       output.sendDone err
     req.on 'response', (res) ->
       if res.statusCode isnt 200
@@ -36,3 +36,5 @@ exports.getComponent = ->
       while item = @read()
         output.send
           out: item
+    parser.on 'end', ->
+      output.done()
