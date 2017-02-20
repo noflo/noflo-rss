@@ -22,7 +22,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "grunt": "^1.0.1",
-    "fbp-spec": "^0.1.5",
+    "fbp-spec": "^0.2.0",
     "grunt-coffeelint": "^0.0.16",
     "grunt-contrib-coffee": "^1.0.0",
     "grunt-mocha-test": "^0.13.2",
