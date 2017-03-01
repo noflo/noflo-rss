@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "feedparser": "~2.1.0",
-    "noflo": "0.x >= 0.7",
+    "noflo": "0.x >= 0.8",
     "request": "~2.79.0"
   },
   "devDependencies": {

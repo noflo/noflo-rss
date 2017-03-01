@@ -18,28 +18,23 @@ exports.getComponent = ->
   c.outPorts.add 'error',
     datatype: 'object'
 
-  noflo.helpers.WirePattern c,
-    in: 'in'
-    out: 'out'
-    async: true
-    forwardGroups: true
-  , (data, groups, out, cb) ->
-    callback = (err) ->
-      cb err
+  c.process (input, output) ->
+    return unless input.hasData 'in'
+    data = input.getData 'in'
     req = request data
     parser = new feedparser
     req.once 'error', (err) ->
-      callback err
+      output.sendDone err
     req.on 'response', (res) ->
       if res.statusCode isnt 200
         @emit 'error', new Error "Feed '#{data}' resulted in #{res.statusCode}"
         return
       @pipe parser
-
     parser.once 'error', (err) ->
-      callback err
+      output.sendDone err
     parser.on 'readable', ->
       while item = @read()
-        out.send item
+        output.send
+          out: item
     parser.on 'end', ->
-      do callback
+      output.done()
