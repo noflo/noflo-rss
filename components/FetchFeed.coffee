@@ -23,6 +23,7 @@ exports.getComponent = ->
     data = input.getData 'in'
     req = request data
     parser = new feedparser
+    c.outPorts.out.connect() # let downstream know we will send
     req.once 'error', (err) ->
       output.sendDone err
     req.on 'response', (res) ->
