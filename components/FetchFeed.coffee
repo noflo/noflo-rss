@@ -32,9 +32,14 @@ exports.getComponent = ->
       @pipe parser
     parser.once 'error', (err) ->
       output.sendDone err
+    parser.once 'readable', ->
+      output.send
+        out: new noflo.IP 'openBracket', data
     parser.on 'readable', ->
       while item = @read()
         output.send
           out: item
     parser.on 'end', ->
+      output.send
+        out: new noflo.IP 'closeBracket', data
       output.done()

@@ -31,7 +31,7 @@ describe 'Feed fetching', ->
   describe 'fetching a known good feed', ->
     it 'should produce 10 items', (done) ->
       expected = [
-        '< 1'
+        '< http://bergie.iki.fi/blog/rss.xml'
         'ITEM'
         'ITEM'
         'ITEM'
@@ -59,18 +59,14 @@ describe 'Feed fetching', ->
       error.on 'data', (data) ->
         done data
 
-      ins.beginGroup 1
       ins.send 'http://bergie.iki.fi/blog/rss.xml'
-      ins.endGroup()
       ins.disconnect()
 
   describe 'fetching a known missing feed', ->
     it 'should produce an error', (done) ->
       received = []
       expected = [
-        '< 2'
         'ERR'
-        '>'
       ]
       error.on 'begingroup', (group) ->
         received.push "< #{group}"
@@ -83,18 +79,14 @@ describe 'Feed fetching', ->
         chai.expect(received).to.eql expected
         done()
 
-      ins.beginGroup 2
       ins.send 'http://bergie.iki.fi/notfound.xml'
-      ins.endGroup()
       ins.disconnect()
 
   describe 'fetching a non-feed URL', ->
     it 'should produce an error', (done) ->
       received = []
       expected = [
-        '< 3'
         'ERR'
-        '>'
       ]
       error.on 'begingroup', (group) ->
         received.push "< #{group}"
@@ -107,7 +99,5 @@ describe 'Feed fetching', ->
         chai.expect(received).to.eql expected
         done()
 
-      ins.beginGroup 3
       ins.send 'http://bergie.iki.fi/blog/'
-      ins.endGroup()
       ins.disconnect()
