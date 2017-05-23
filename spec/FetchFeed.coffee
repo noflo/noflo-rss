@@ -28,7 +28,7 @@ describe 'Feed fetching', ->
     out = null
     error = null
 
-  describe 'fetching a known good feed', ->
+  describe 'fetching a known RSS feed', ->
     it 'should produce 10 items', (done) ->
       expected = [
         '< http://bergie.iki.fi/blog/rss.xml'
@@ -60,6 +60,39 @@ describe 'Feed fetching', ->
         done data
 
       ins.send 'http://bergie.iki.fi/blog/rss.xml'
+      ins.disconnect()
+  describe 'fetching a known JSON feed', ->
+    it 'should produce 10 items', (done) ->
+      expected = [
+        '< http://bergie.iki.fi/blog/feed.json'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        'ITEM'
+        '>'
+      ]
+      received = []
+      out.on 'begingroup', (group) ->
+        received.push "< #{group}"
+      out.on 'data', (data) ->
+        chai.expect(data.meta).to.be.an 'object'
+        chai.expect(data.meta['home_page_url']).to.equal 'http://bergie.iki.fi'
+        received.push 'ITEM'
+      out.on 'endgroup', (group) ->
+        received.push '>'
+      out.on 'disconnect', ->
+        chai.expect(received).to.eql expected
+        done()
+      error.on 'data', (data) ->
+        done data
+
+      ins.send 'http://bergie.iki.fi/blog/feed.json'
       ins.disconnect()
 
   describe 'fetching a known missing feed', ->
