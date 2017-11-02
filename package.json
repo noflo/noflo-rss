@@ -12,7 +12,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "grunt test"
+    "pretest": "coffeelint -r components",
+    "test": "mocha --require coffeescript/register -R spec -t 2000 spec/*.coffee"
   },
   "dependencies": {
     "feedparser": "~2.2.0",
@@ -21,21 +22,12 @@
   },
   "devDependencies": {
     "chai": "^4.0.0",
-    "grunt": "^1.0.1",
-    "fbp-spec": "^0.2.0",
-    "grunt-coffeelint": "^0.0.16",
-    "grunt-contrib-coffee": "^1.0.0",
-    "grunt-mocha-test": "^0.13.2",
-    "grunt-noflo-manifest": "^0.1.12",
+    "coffeelint": "^2.0.7",
+    "coffeescript": "^2.0.2",
     "mocha": "^4.0.0"
   },
   "keywords": [
     "noflo",
     "ecosystem:noflo"
-  ],
-  "noflo": {
-    "components": {
-      "FetchFeed": "components/FetchFeed.coffee"
-    }
-  }
+  ]
 }
