@@ -31,7 +31,7 @@ describe 'Feed fetching', ->
   describe 'fetching a known RSS feed', ->
     it 'should produce 10 items', (done) ->
       expected = [
-        '< http://bergie.iki.fi/blog/rss.xml'
+        '< https://bergie.iki.fi/blog/rss.xml'
         'ITEM'
         'ITEM'
         'ITEM'
@@ -49,7 +49,7 @@ describe 'Feed fetching', ->
         received.push "< #{group}"
       out.on 'data', (data) ->
         chai.expect(data.meta).to.be.an 'object'
-        chai.expect(data.meta['rss:link']['#']).to.equal 'http://bergie.iki.fi'
+        chai.expect(data.meta['rss:link']['#']).to.equal 'https://bergie.iki.fi'
         received.push 'ITEM'
       out.on 'endgroup', (group) ->
         received.push '>'
@@ -59,12 +59,12 @@ describe 'Feed fetching', ->
       error.on 'data', (data) ->
         done data
 
-      ins.send 'http://bergie.iki.fi/blog/rss.xml'
+      ins.send 'https://bergie.iki.fi/blog/rss.xml'
       ins.disconnect()
   describe 'fetching a known JSON feed', ->
     it 'should produce 10 items', (done) ->
       expected = [
-        '< http://bergie.iki.fi/blog/feed.json'
+        '< https://bergie.iki.fi/blog/feed.json'
         'ITEM'
         'ITEM'
         'ITEM'
@@ -82,7 +82,7 @@ describe 'Feed fetching', ->
         received.push "< #{group}"
       out.on 'data', (data) ->
         chai.expect(data.meta).to.be.an 'object'
-        chai.expect(data.meta['home_page_url']).to.equal 'http://bergie.iki.fi'
+        chai.expect(data.meta['home_page_url']).to.equal 'https://bergie.iki.fi'
         received.push 'ITEM'
       out.on 'endgroup', (group) ->
         received.push '>'
@@ -92,7 +92,7 @@ describe 'Feed fetching', ->
       error.on 'data', (data) ->
         done data
 
-      ins.send 'http://bergie.iki.fi/blog/feed.json'
+      ins.send 'https://bergie.iki.fi/blog/feed.json'
       ins.disconnect()
 
   describe 'fetching a known missing feed', ->
@@ -112,7 +112,7 @@ describe 'Feed fetching', ->
         chai.expect(received).to.eql expected
         done()
 
-      ins.send 'http://bergie.iki.fi/notfound.xml'
+      ins.send 'https://bergie.iki.fi/notfound.xml'
       ins.disconnect()
 
   describe 'fetching a non-feed URL', ->
@@ -132,5 +132,5 @@ describe 'Feed fetching', ->
         chai.expect(received).to.eql expected
         done()
 
-      ins.send 'http://bergie.iki.fi/blog/'
+      ins.send 'https://bergie.iki.fi/blog/'
       ins.disconnect()
