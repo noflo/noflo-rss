@@ -49,7 +49,7 @@ describe 'Feed fetching', ->
         received.push "< #{group}"
       out.on 'data', (data) ->
         chai.expect(data.meta).to.be.an 'object'
-        chai.expect(data.meta['rss:link']['#']).to.equal 'https://bergie.iki.fi'
+        chai.expect(data.meta['rss:link']['#']).to.equal 'https://bergie.iki.fi/'
         received.push 'ITEM'
       out.on 'endgroup', (group) ->
         received.push '>'
